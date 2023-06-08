@@ -49,5 +49,17 @@ router.put("/:id", async (req, res) => {
     res.status(400).json(err);
   }
 });
-
+router.delete("/:id", async (req, res) => {
+  try {
+    await cardsValidationService.idValidation(req.params.id);
+    const cardDeleted = await cardServiceModel.deleteCard(req.params.id);
+    if (cardDeleted) {
+      res.json({ msg: "card deleted" });
+    } else {
+      res.json({ msg: "could not find the card" });
+    }
+  } catch (err) {
+    res.status(400).json(err);
+  }
+});
 module.exports = router;

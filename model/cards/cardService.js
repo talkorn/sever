@@ -13,4 +13,13 @@ const getCardById = (id) => {
 const updateCard = (id, newCard) => {
   return Card.findByIdAndUpdate(id, newCard, { new: true });
 };
-module.exports = { createCard, getAllCards, getCardById, updateCard };
+const deleteCard = (id) => {
+  return Card.findByIdAndDelete(id);
+};
+module.exports = {
+  createCard,
+  getAllCards,
+  getCardById,
+  updateCard,
+  deleteCard,
+};

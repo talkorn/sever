@@ -7,9 +7,9 @@ const {
 
 const userSchema = new mongoose.Schema({
   name: {
-    first: DEFAULT_STRING_SCHEMA_REQUIRED,
-    middle: DEFAULT_STRING_SCHEMA,
-    last: DEFAULT_STRING_SCHEMA_REQUIRED,
+    firstName: DEFAULT_STRING_SCHEMA_REQUIRED,
+    middleName: DEFAULT_STRING_SCHEMA,
+    lastName: DEFAULT_STRING_SCHEMA_REQUIRED,
   },
   phone: {
     type: String,

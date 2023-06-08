@@ -7,12 +7,13 @@ const URL = {
 };
 DEFAULT_STRING_SCHEMA = {
   type: String,
-  minLength: 2,
+
   maxLength: 256,
   trim: true,
 };
 const DEFAULT_STRING_SCHEMA_REQUIRED = {
   ...DEFAULT_STRING_SCHEMA,
   required: true,
+  minLength: 2,
 };
 module.exports = { URL, DEFAULT_STRING_SCHEMA, DEFAULT_STRING_SCHEMA_REQUIRED };
