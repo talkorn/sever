@@ -1,0 +1,41 @@
+[
+  {
+    "title": "yuval",
+    "subTitle": "sub card 1",
+    "description": "save the card pls",
+    "phone": "0500000000",
+    "email": "yuval@yahoo.com",
+    "address": {
+      "country": "Israel",
+      "city": "Ashkeluna",
+      "street": "jump street",
+      "houseNumber": 23
+    }
+  },
+  {
+    "title": "tal",
+    "subTitle": "sub card 2",
+    "description": "save the card pls",
+    "phone": "0500000000",
+    "email": "tal@yahoo.com",
+    "address": {
+      "country": "Israel",
+      "city": "Ashkeluna",
+      "street": "jump street",
+      "houseNumber": 23
+    }
+  },
+  {
+    "title": "amit",
+    "subTitle": "sub card 3",
+    "description": "save the card pls",
+    "phone": "0500000000",
+    "email": "amit@yahoo.com",
+    "address": {
+      "country": "Israel",
+      "city": "Ashkeluna",
+      "street": "jump street",
+      "houseNumber": 23
+    }
+  }
+]

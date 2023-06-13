@@ -19,6 +19,7 @@
     "env-cross": "^0.0.1",
     "express": "~4.16.1",
     "joi": "^17.9.2",
+    "jsonwebtoken": "^9.0.0",
     "lodash": "^4.17.21",
     "mongoose": "^7.2.2",
     "morgan": "~1.9.1"

@@ -3,11 +3,13 @@ const router = express.Router();
 const cardServiceModel = require("../../model/cards/cardService");
 const cardsValidationService = require("../../validation/cardsValidationService");
 const normalizedCard = require("../../model/cards/helpers/normalizationCard");
+const authMiddleware = require("../../middleware/authMiddleware");
+const permissionsMiddleware = require("../../middleware/permissionsMiddleware");
 
-router.post("/", async (req, res) => {
+router.post("/", authMiddleware, async (req, res) => {
   try {
     await cardsValidationService.createCardValidation(req.body);
-    let normalCard = await normalizedCard(req.body, "647b00d1b79c0da7c39e3180");
+    let normalCard = await normalizedCard(req.body, req.userData._id);
     const dataFromMongoose = await cardServiceModel.createCard(normalCard);
     console.log("dataFromMongoose", dataFromMongoose);
     res.json({ msg: "new card" });
@@ -35,11 +37,11 @@ router.get("/:id", async (req, res) => {
     res.status(400).json(err);
   }
 });
-router.put("/:id", async (req, res) => {
+router.put("/:id", authMiddleware, async (req, res) => {
   try {
     await cardsValidationService.idValidation(req.params.id);
     await cardsValidationService.createCardValidation(req.body);
-    let normalCard = await normalizedCard(req.body, "647b00d1b79c0da7c39e3180");
+    let normalCard = await normalizedCard(req.body, req.userData._id);
     const newCard = await cardServiceModel.updateCard(
       req.params.id,
       normalCard
@@ -49,17 +51,22 @@ router.put("/:id", async (req, res) => {
     res.status(400).json(err);
   }
 });
-router.delete("/:id", async (req, res) => {
-  try {
-    await cardsValidationService.idValidation(req.params.id);
-    const cardDeleted = await cardServiceModel.deleteCard(req.params.id);
-    if (cardDeleted) {
-      res.json({ msg: "card deleted" });
-    } else {
-      res.json({ msg: "could not find the card" });
+router.delete(
+  "/:id",
+  authMiddleware,
+  permissionsMiddleware(false, true, true),
+  async (req, res) => {
+    try {
+      await cardsValidationService.idValidation(req.params.id);
+      const cardDeleted = await cardServiceModel.deleteCard(req.params.id);
+      if (cardDeleted) {
+        res.json({ msg: "card deleted" });
+      } else {
+        res.json({ msg: "could not find the card" });
+      }
+    } catch (err) {
+      res.status(400).json(err);
     }
-  } catch (err) {
-    res.status(400).json(err);
   }
-});
+);
 module.exports = router;

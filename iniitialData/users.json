@@ -1,0 +1,44 @@
+[
+  {
+    "name": { "firstName": "tal", "lastName": "korn" },
+    "phone": "0884474747",
+    "email": "sandor_tal@yahoo.com",
+    "password": "11111Aa!",
+    "address": {
+      "country": "il",
+      "city": "tel",
+      "street": "hagolan",
+      "houseNumber": 14,
+      "zip": 22
+    },
+    "isBusiness": true
+  },
+  {
+    "name": { "firstName": "amit", "lastName": "korn" },
+    "phone": "0884474747",
+    "email": "sandor_tal1@yahoo.com",
+    "password": "11111Aa!",
+    "address": {
+      "country": "il",
+      "city": "tel",
+      "street": "hagolan",
+      "houseNumber": 14,
+      "zip": 22
+    },
+    "isBusiness": true
+  },
+  {
+    "name": { "firstName": "dor", "lastName": "korn" },
+    "phone": "0884474747",
+    "email": "sandor_tal2@yahoo.com",
+    "password": "11111Aa!",
+    "address": {
+      "country": "il",
+      "city": "tel",
+      "street": "hagolan",
+      "houseNumber": 14,
+      "zip": 22
+    },
+    "isBusiness": true
+  }
+]
