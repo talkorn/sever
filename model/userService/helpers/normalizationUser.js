@@ -13,7 +13,7 @@ const normalizedUser = (user) => {
   }
   user.address = {
     ...user.address,
-    state: user.address.state || "",
+    state: user.address.state || " ",
   };
   return user;
 };

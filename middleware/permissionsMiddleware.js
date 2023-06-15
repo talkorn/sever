@@ -1,5 +1,5 @@
 const CustomError = require("../utils/CustomError");
-const { getCardById } = require("../model/cards/cardService");
+const { getCardById } = require("../model/cardsService/cardService");
 const cardsValidationService = require("../validation/cardsValidationService");
 /*
     TODO:

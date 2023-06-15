@@ -1,11 +1,11 @@
 usersArray = require("./users.json");
 cardsArray = require("./cards.json");
-const userModelService = require("../model/user/userService");
-const cardsModelService = require("../model/cards/cardService");
+const userModelService = require("../model/userService/userService");
+const cardsModelService = require("../model/cardsService/cardService");
 const { createUserValidation } = require("../validation/authValidationService");
-const normalizedUser = require("../model/user/helpers/normalizationUser");
-const normalizeCard = require("../model/cards/helpers/normalizationCard");
-const bcrypt = require("../config/bcrypt");
+const normalizedUser = require("../model/userService/userService");
+const normalizeCard = require("../model/cardsService/helpers/normalizationCard");
+const hashService = require("../utils/hash/hashService");
 
 const initialData = async () => {
   try {
@@ -20,7 +20,7 @@ const initialData = async () => {
     let user_id = "";
     for (let user of usersArray) {
       await createUserValidation(user);
-      user.password = await bcrypt.generteHash(user.password);
+      user.password = await hashService.generateHash(user.password);
       user = normalizedUser(user);
 
       user_id = await userModelService.createUser(user);

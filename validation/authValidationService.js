@@ -16,5 +16,29 @@ const createLoginValidation = (userInput) => {
   }
   throw new Error("validator undefind");
 };
+const createIdValidation = (id) => {
+  if (validatorOption === "Joi") {
+    return joiUserValidation.validateIdSchema(id);
+  }
+  throw new Error("validator undefind");
+};
+const createEditValidation = (id) => {
+  if (validatorOption === "Joi") {
+    return joiUserValidation.validateEditSchema(id);
+  }
+  throw new Error("validator undefind");
+};
+const createIsBusinessValidation = (isBusiness) => {
+  if (validatorOption === "Joi") {
+    return joiUserValidation.validateisBusinessSchema(isBusiness);
+  }
+  throw new Error("validator undefind");
+};
 
-module.exports = { createUserValidation, createLoginValidation };
+module.exports = {
+  createUserValidation,
+  createLoginValidation,
+  createIdValidation,
+  createEditValidation,
+  createIsBusinessValidation,
+};

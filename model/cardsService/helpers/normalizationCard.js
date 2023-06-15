@@ -1,4 +1,4 @@
-const generateBizNumber = require("./generateBizNumber");
+const generateBizNumber = require("../../mongodb/cards/helpers/generateBizNumber");
 const normalizedCard = async (card, userId) => {
   if (!card.image) {
     card.image = {};

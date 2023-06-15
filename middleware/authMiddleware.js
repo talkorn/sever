@@ -1,4 +1,4 @@
-const { verifyToken } = require("../config/jwt");
+const { verifyToken } = require("../utils/token/tokenService");
 const CustomError = require("../utils/CustomError");
 
 const authMiddleware = async (req, res, next) => {

@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const cardServiceModel = require("../../model/cards/cardService");
+const cardServiceModel = require("../../model/cardsService/cardService");
 const cardsValidationService = require("../../validation/cardsValidationService");
-const normalizedCard = require("../../model/cards/helpers/normalizationCard");
+const normalizedCard = require("../../model/cardsService/helpers/normalizationCard");
 const authMiddleware = require("../../middleware/authMiddleware");
 const permissionsMiddleware = require("../../middleware/permissionsMiddleware");
 
@@ -40,7 +40,9 @@ router.get("/:id", async (req, res) => {
 router.put("/:id", authMiddleware, async (req, res) => {
   try {
     await cardsValidationService.idValidation(req.params.id);
+    console.log("reqbody", req.body);
     await cardsValidationService.createCardValidation(req.body);
+
     let normalCard = await normalizedCard(req.body, req.userData._id);
     const newCard = await cardServiceModel.updateCard(
       req.params.id,
@@ -51,6 +53,7 @@ router.put("/:id", authMiddleware, async (req, res) => {
     res.status(400).json(err);
   }
 });
+
 router.delete(
   "/:id",
   authMiddleware,
