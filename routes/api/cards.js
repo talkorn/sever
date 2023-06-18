@@ -6,23 +6,38 @@ const normalizedCard = require("../../model/cardsService/helpers/normalizationCa
 const authMiddleware = require("../../middleware/authMiddleware");
 const permissionsMiddleware = require("../../middleware/permissionsMiddleware");
 
-router.post("/", authMiddleware, async (req, res) => {
-  try {
-    await cardsValidationService.createCardValidation(req.body);
-    let normalCard = await normalizedCard(req.body, req.userData._id);
-    const dataFromMongoose = await cardServiceModel.createCard(normalCard);
-    console.log("dataFromMongoose", dataFromMongoose);
-    res.json({ msg: "new card" });
-  } catch (err) {
-    console.log(err);
-    res.status(400).json(err);
+router.post(
+  "/",
+  authMiddleware,
+  permissionsMiddleware(true, false, false),
+  async (req, res) => {
+    try {
+      await cardsValidationService.createCardValidation(req.body);
+      let normalCard = await normalizedCard(req.body, req.userData._id);
+      const dataFromMongoose = await cardServiceModel.createCard(normalCard);
+      console.log("dataFromMongoose", dataFromMongoose);
+      res.json({ msg: "new card" });
+    } catch (err) {
+      console.log(err);
+      res.status(400).json(err);
+    }
   }
-});
+);
 
 router.get("/", async (req, res) => {
   try {
     const allCards = await cardServiceModel.getAllCards();
     res.json(allCards);
+  } catch (err) {
+    res.status(400).json(err);
+  }
+});
+router.get("/my-cards", authMiddleware, async (req, res) => {
+  try {
+    console.log(req.userData._id);
+    console.log("jgjydfhd");
+    const allMyCards = await cardServiceModel.getAllMyCards(req.userData.id);
+    res.json(allMyCards);
   } catch (err) {
     res.status(400).json(err);
   }
@@ -37,18 +52,43 @@ router.get("/:id", async (req, res) => {
     res.status(400).json(err);
   }
 });
-router.put("/:id", authMiddleware, async (req, res) => {
+router.put(
+  "/:id",
+  authMiddleware,
+  permissionsMiddleware(false, false, true),
+  async (req, res) => {
+    try {
+      await cardsValidationService.idValidation(req.params.id);
+      console.log("reqbody", req.body);
+      await cardsValidationService.createCardValidation(req.body);
+
+      let normalCard = await normalizedCard(req.body, req.userData._id);
+      const newCard = await cardServiceModel.updateCard(
+        req.params.id,
+        normalCard
+      );
+      res.json(newCard);
+    } catch (err) {
+      res.status(400).json(err);
+    }
+  }
+);
+
+router.patch("/:id", authMiddleware, async (req, res) => {
   try {
     await cardsValidationService.idValidation(req.params.id);
-    console.log("reqbody", req.body);
-    await cardsValidationService.createCardValidation(req.body);
+    const card = await cardServiceModel.getCardById(req.params.id);
+    const userId = req.userData._id;
+    const isLikedAlready = card.likes.some((item) => item === userId);
+    if (!isLikedAlready) {
+      card.likes.push(userId);
+    } else {
+      const filteredLikes = card.likes.filter((item) => item !== userId);
+      card.likes = filteredLikes;
+    }
 
-    let normalCard = await normalizedCard(req.body, req.userData._id);
-    const newCard = await cardServiceModel.updateCard(
-      req.params.id,
-      normalCard
-    );
-    res.json(newCard);
+    await cardServiceModel.likesCard(req.params.id, card.likes);
+    res.json("Likes changed");
   } catch (err) {
     res.status(400).json(err);
   }
@@ -72,4 +112,5 @@ router.delete(
     }
   }
 );
+
 module.exports = router;

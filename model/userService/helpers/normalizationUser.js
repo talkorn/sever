@@ -13,7 +13,14 @@ const normalizedUser = (user) => {
   }
   user.address = {
     ...user.address,
-    state: user.address.state || " ",
+    state: user.address.state || "not defined",
+  };
+  if (!user.name) {
+    user.name = {};
+  }
+  user.name = {
+    ...user.name,
+    middle: user.name.middle || " ",
   };
   return user;
 };

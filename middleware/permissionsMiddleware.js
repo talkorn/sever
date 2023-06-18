@@ -21,7 +21,7 @@ const checkIfBizOwner = async (iduser, idcard, res, next) => {
     if (cardData.user_id == iduser) {
       next();
     } else {
-      res.status(401).json({ msg: "you not the biz owner" });
+      res.status(401).json({ msg: "you are not the bissunies card owner" });
     }
   } catch (err) {
     res.status(400).json(err);
@@ -45,10 +45,17 @@ const permissionsMiddleware = (isBiz, isAdmin, isBizOwner) => {
     if (isAdmin === req.userData.isAdmin && isAdmin === true) {
       return next();
     }
-    if (isBizOwner === req.userData.isBusiness && isBizOwner === true) {
+    console.log(
+      "isBizOwner",
+      isBizOwner,
+      "req.userData.isBusiness",
+      req.userData.isBusiness
+    );
+    if (isBizOwner === true) {
+      console.log("dfsvsfv");
       return checkIfBizOwner(req.userData._id, req.params.id, res, next);
     }
-    res.status(401).json({ msg: "you not allowed to edit this card" });
+    res.status(401).json({ msg: "you are not allowed" });
   };
 };
 

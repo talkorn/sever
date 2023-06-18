@@ -12,6 +12,12 @@ const getAllCards = () => {
     return cardsServiceMongo.getAllCards();
   }
 };
+const getAllMyCards = (id) => {
+  console.log("id", id);
+  if (dbOption === "mongo") {
+    return cardsServiceMongo.getAllMyCards(id);
+  }
+};
 
 const getCardById = (id) => {
   if (dbOption === "mongo") {
@@ -28,10 +34,17 @@ const deleteCard = (id) => {
     return cardsServiceMongo.deleteCard(id);
   }
 };
+const likesCard = (id, likes) => {
+  if (dbOption === "mongo") {
+    return cardsServiceMongo.updateCardLikes(id, likes);
+  }
+};
 module.exports = {
   createCard,
   getAllCards,
   getCardById,
   updateCard,
   deleteCard,
+  getAllMyCards,
+  likesCard,
 };

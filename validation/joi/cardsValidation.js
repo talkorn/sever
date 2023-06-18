@@ -52,6 +52,7 @@ const idSchema = Joi.object({
 const validateIdSchema = (id) => {
   return idSchema.validateAsync({ id });
 };
+
 module.exports = {
   validateCardSchema,
   validateIdSchema,

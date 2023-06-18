@@ -2,9 +2,9 @@ const Joi = require("joi");
 
 const createUserSchema = Joi.object({
   name: Joi.object({
-    firstName: Joi.string().min(2).max(256).required(),
-    middleName: Joi.string().min(2).max(256).allow(""),
-    lastName: Joi.string().min(2).max(256).required(),
+    first: Joi.string().min(2).max(256).required(),
+    middle: Joi.string().min(2).max(256).allow(""),
+    last: Joi.string().min(2).max(256).required(),
   }),
   phone: Joi.string()
     .regex(new RegExp(/0[0-9]{1,2}\-?\s?[0-9]{3}\s?[0-9]{4}/))
@@ -52,9 +52,9 @@ const createUserSchema = Joi.object({
 
 const editUserSchema = Joi.object({
   name: Joi.object({
-    firstName: Joi.string().min(2).max(256).required(),
-    middleName: Joi.string().min(2).max(256).allow(""),
-    lastName: Joi.string().min(2).max(256).required(),
+    first: Joi.string().min(2).max(256).required(),
+    middle: Joi.string().min(2).max(256).allow(""),
+    last: Joi.string().min(2).max(256).required(),
   }),
   phone: Joi.string()
     .regex(new RegExp(/0[0-9]{1,2}\-?\s?[0-9]{3}\s?[0-9]{4}/))

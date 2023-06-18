@@ -1,6 +1,6 @@
 [
   {
-    "name": { "firstName": "tal", "lastName": "korn" },
+    "name": { "first": "tal", "last": "korn" },
     "phone": "0884474747",
     "email": "sandor_tal@yahoo.com",
     "password": "11111Aa!",
@@ -11,10 +11,10 @@
       "houseNumber": 14,
       "zip": 22
     },
-    "isBusiness": true
+    "isBusiness": false
   },
   {
-    "name": { "firstName": "amit", "lastName": "korn" },
+    "name": { "first": "amit", "last": "korn" },
     "phone": "0884474747",
     "email": "sandor_tal1@yahoo.com",
     "password": "11111Aa!",
@@ -28,7 +28,7 @@
     "isBusiness": true
   },
   {
-    "name": { "firstName": "dor", "lastName": "korn" },
+    "name": { "first": "dor", "last": "korn" },
     "phone": "0884474747",
     "email": "sandor_tal2@yahoo.com",
     "password": "11111Aa!",
@@ -39,6 +39,7 @@
       "houseNumber": 14,
       "zip": 22
     },
-    "isBusiness": true
+    "isBusiness": true,
+    "isAdmin": true
   }
 ]

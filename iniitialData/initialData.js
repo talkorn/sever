@@ -3,7 +3,7 @@ cardsArray = require("./cards.json");
 const userModelService = require("../model/userService/userService");
 const cardsModelService = require("../model/cardsService/cardService");
 const { createUserValidation } = require("../validation/authValidationService");
-const normalizedUser = require("../model/userService/userService");
+const normalizedUser = require("../model/userService/helpers/normalizationUser");
 const normalizeCard = require("../model/cardsService/helpers/normalizationCard");
 const hashService = require("../utils/hash/hashService");
 
