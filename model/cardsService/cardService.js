@@ -39,6 +39,11 @@ const likesCard = (id, likes) => {
     return cardsServiceMongo.updateCardLikes(id, likes);
   }
 };
+const newBizNumber = (id, bizNumber) => {
+  if (dbOption === "mongo") {
+    return cardsServiceMongo.updateBizNumber(id, bizNumber);
+  }
+};
 module.exports = {
   createCard,
   getAllCards,
@@ -47,4 +52,5 @@ module.exports = {
   deleteCard,
   getAllMyCards,
   likesCard,
+  newBizNumber,
 };

@@ -24,6 +24,15 @@ const deleteCard = (id) => {
 const updateCardLikes = (id, likes) => {
   return Card.findByIdAndUpdate(id, { likes: likes });
 };
+const updateBizNumber = (id, bizNumber) => {
+  return Card.findByIdAndUpdate(
+    id,
+    {
+      bizNumber: bizNumber,
+    },
+    { new: true }
+  );
+};
 module.exports = {
   createCard,
   getAllCards,
@@ -32,4 +41,5 @@ module.exports = {
   deleteCard,
   getAllMyCards,
   updateCardLikes,
+  updateBizNumber,
 };

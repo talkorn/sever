@@ -5,7 +5,7 @@ const cardsValidationService = require("../../validation/cardsValidationService"
 const normalizedCard = require("../../model/cardsService/helpers/normalizationCard");
 const authMiddleware = require("../../middleware/authMiddleware");
 const permissionsMiddleware = require("../../middleware/permissionsMiddleware");
-
+const generateBizNumber = require("../../model/mongodb/cards/helpers/generateBizNumber");
 router.post(
   "/",
   authMiddleware,
@@ -59,15 +59,14 @@ router.put(
   async (req, res) => {
     try {
       await cardsValidationService.idValidation(req.params.id);
-      console.log("reqbody", req.body);
-      await cardsValidationService.createCardValidation(req.body);
+      await cardsValidationService.createEditCardValidation(req.body);
 
       let normalCard = await normalizedCard(req.body, req.userData._id);
       const newCard = await cardServiceModel.updateCard(
         req.params.id,
         normalCard
       );
-      res.json(newCard);
+      res.json("newCard");
     } catch (err) {
       res.status(400).json(err);
     }
@@ -112,5 +111,23 @@ router.delete(
     }
   }
 );
-
+router.patch(
+  "/biz/:id",
+  authMiddleware,
+  permissionsMiddleware(false, true, false),
+  async (req, res) => {
+    try {
+      await cardsValidationService.idValidation(req.params.id);
+      const newBissNumber = await generateBizNumber();
+      console.log("newBissNumber", newBissNumber);
+      const udateCards = await cardServiceModel.newBizNumber(
+        req.params.id,
+        newBissNumber
+      );
+      res.json(udateCards);
+    } catch (err) {
+      res.status(400).json(err);
+    }
+  }
+);
 module.exports = router;
