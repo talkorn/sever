@@ -1,10 +1,13 @@
 const User = require("./User");
-
+const _ = require("lodash");
 const createUser = async (userToSave) => {
   let user = new User(userToSave);
-  return user.save();
+  await user.save();
+  const userObject = user.toObject();
+  return _.omit(userObject, "password");
 };
 const getUserByEmail = async (email) => {
+  console.log("here3");
   return User.findOne({ email });
 };
 const getAllUsers = async () => {

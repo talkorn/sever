@@ -37,6 +37,7 @@ const deletUser = async (id) => {
     return userServiceMongo.deletUser(id);
   }
 };
+
 module.exports = {
   createUser,
   getUserByEmail,

@@ -11,18 +11,22 @@ const {
 } = require("../../validation/authValidationService");
 const normalizedUser = require("../../model/userService/helpers/normalizationUser");
 const jwt = require("../../utils/token/tokenService");
+
 const CustomError = require("../../utils/CustomError");
 const authMiddleware = require("../../middleware/authMiddleware");
 const permissionsMiddleware = require("../../middleware/permissionsMiddleware");
 const permissionsUserMiddleware = require("../../middleware/userPermissionMiddlewaew");
+const whoTryToLogin = require("../../model/mongodb/user/helpers/loginhelper");
+
+const timeWindowForFailedLogins = 60 * 60 * 1;
 
 router.post("/", async (req, res) => {
   try {
     await createUserValidation(req.body);
     req.body.password = await hashService.generateHash(req.body.password);
     req.body = normalizedUser(req.body);
-    await userServiceModel.createUser(req.body);
-    res.json("register");
+    const newR = await userServiceModel.createUser(req.body);
+    res.json(newR);
   } catch (err) {
     res.status(400).json(err);
   }
@@ -46,6 +50,15 @@ router.post("/login", async (req, res) => {
     );
     console.log("isPasswordCorrect", isPasswordCorrect);
     if (!isPasswordCorrect) {
+      userEmail = await userServiceModel.getUserByEmail(req.body.email);
+      console.log("here");
+      countFalseEntere = whoTryToLogin(req.body.email);
+      console.log("countFalseEntere", countFalseEntere);
+      if (countFalseEntere > 3) {
+        await redis.set(userEmail, "ex", timeWindowForFailedLogins);
+        return res.status(429).send("Too Many Attempts try it one hour later");
+      }
+
       throw new CustomError("invalid email and/or password");
     }
     const token = await jwt.generateToken({
