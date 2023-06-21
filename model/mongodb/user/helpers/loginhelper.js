@@ -15,4 +15,20 @@ const whoTryToLogin = (email) => {
   return global.count;
 };
 
-module.exports = whoTryToLogin;
+const blockedUsers = {};
+
+const blockUser = (email, blockDuration) => {
+  blockedUsers[email] = Date.now() + blockDuration;
+  return blockedUsers[email];
+};
+
+const isUserBlocked = (email) => {
+  if (blockedUsers[email]) {
+    const blockExpiration = blockedUsers[email];
+    const currentTime = Date.now();
+    return blockExpiration > currentTime;
+  }
+  return false;
+};
+
+module.exports = { whoTryToLogin, blockUser, isUserBlocked };

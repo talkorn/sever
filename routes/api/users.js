@@ -1,5 +1,7 @@
 const express = require("express");
+
 const router = express.Router();
+
 const hashService = require("../../utils/hash/hashService");
 const userServiceModel = require("../../model/userService/userService");
 const {
@@ -16,9 +18,11 @@ const CustomError = require("../../utils/CustomError");
 const authMiddleware = require("../../middleware/authMiddleware");
 const permissionsMiddleware = require("../../middleware/permissionsMiddleware");
 const permissionsUserMiddleware = require("../../middleware/userPermissionMiddlewaew");
-const whoTryToLogin = require("../../model/mongodb/user/helpers/loginhelper");
-
-const timeWindowForFailedLogins = 60 * 60 * 1;
+const {
+  checkLoginAttempts,
+  recordFailedLoginAttempt,
+  resetLoginAttempts,
+} = require("../../middleware/loginBlokMiddlewear");
 
 router.post("/", async (req, res) => {
   try {
@@ -32,45 +36,39 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.post("/login", async (req, res) => {
-  try {
-    await createLoginValidation(req.body);
+router.post(
+  "/login",
+  checkLoginAttempts,
+  recordFailedLoginAttempt,
+  async (req, res) => {
+    try {
+      await createLoginValidation(req.body);
+      const user = await userServiceModel.getUserByEmail(req.body.email);
 
-    const user = await userServiceModel.getUserByEmail(req.body.email);
-    console.log(
-      "req.body.password",
-      req.body.password,
-      "user.password",
-      user.password
-    );
-    if (!user) throw new CustomError("invalid email and/or password");
-    const isPasswordCorrect = await hashService.cmpHash(
-      req.body.password,
-      user.password
-    );
-    console.log("isPasswordCorrect", isPasswordCorrect);
-    if (!isPasswordCorrect) {
-      userEmail = await userServiceModel.getUserByEmail(req.body.email);
-      console.log("here");
-      countFalseEntere = whoTryToLogin(req.body.email);
-      console.log("countFalseEntere", countFalseEntere);
-      if (countFalseEntere > 3) {
-        await redis.set(userEmail, "ex", timeWindowForFailedLogins);
-        return res.status(429).send("Too Many Attempts try it one hour later");
+      if (!user) throw new CustomError("invalid email and/or password");
+      const isPasswordCorrect = await hashService.cmpHash(
+        req.body.password,
+        user.password
+      );
+
+      if (!isPasswordCorrect) {
+        throw new CustomError("invalid email and/or password");
       }
-
-      throw new CustomError("invalid email and/or password");
+      const token = await jwt.generateToken({
+        _id: user._id,
+        isAdmin: user.isAdmin,
+        isBusiness: user.isBusiness,
+      });
+      resetLoginAttempts(req, res, () => {
+        res.json({ token });
+      });
+      //res.json({ token });
+    } catch (err) {
+      res.status(400).json(err);
     }
-    const token = await jwt.generateToken({
-      _id: user._id,
-      isAdmin: user.isAdmin,
-      isBusiness: user.isBusiness,
-    });
-    res.json({ token });
-  } catch (err) {
-    res.status(400).json(err);
   }
-});
+);
+
 router.get(
   "/",
   authMiddleware,

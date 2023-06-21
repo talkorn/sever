@@ -7,7 +7,6 @@ const createUser = async (userToSave) => {
   return _.omit(userObject, "password");
 };
 const getUserByEmail = async (email) => {
-  console.log("here3");
   return User.findOne({ email });
 };
 const getAllUsers = async () => {
