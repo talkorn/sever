@@ -15,7 +15,7 @@ router.post(
       await cardsValidationService.createCardValidation(req.body);
       let normalCard = await normalizedCard(req.body, req.userData._id);
       const dataFromMongoose = await cardServiceModel.createCard(normalCard);
-      res.json({ msg: "new card" });
+      res.json(dataFromMongoose);
     } catch (err) {
       res.status(400).json(err);
     }
