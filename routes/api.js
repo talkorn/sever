@@ -6,6 +6,5 @@ router.get("/", (req, res) => {
   res.json({ msg: "sub rout" });
 });
 router.use("/cards", cardsRouter);
-//router.use("/auth", authRoter);
 router.use("/users", usersRouter);
 module.exports = router;
