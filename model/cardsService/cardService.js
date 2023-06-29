@@ -13,7 +13,6 @@ const getAllCards = () => {
   }
 };
 const getAllMyCards = (id) => {
-  console.log("id", id);
   if (dbOption === "mongo") {
     return cardsServiceMongo.getAllMyCards(id);
   }

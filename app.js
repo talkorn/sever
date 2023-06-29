@@ -62,7 +62,7 @@ app.use(
         loggers(requestDate, status, errorMessage);
         break;
       default:
-        color = chalk.white; // Default color if the status doesn't fall within any range
+        color = chalk.white;
         break;
     }
 

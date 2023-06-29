@@ -89,9 +89,12 @@ router.get(
   async (req, res) => {
     try {
       await createIdValidation(req.params.id);
-      console.log("kjgvjhfjhdf");
       const userById = await userServiceModel.getAUserById(req.params.id);
-      res.json(userById);
+      if (userById) {
+        res.json(userById);
+      } else {
+        res.status(400).json({ msg: "could not find the user" });
+      }
     } catch (err) {
       res.status(400).json(err);
     }
@@ -106,8 +109,11 @@ router.put(
       await createIdValidation(req.params.id);
       await createEditValidation(req.body);
       req.body = normalizedUser(req.body);
-      await userServiceModel.editUser(req.params.id, req.body);
-      res.json(req.body);
+      const updateUser = await userServiceModel.editUser(
+        req.params.id,
+        req.body
+      );
+      res.json(updateUser);
     } catch (err) {
       res.status(400).json(err);
     }
@@ -123,8 +129,11 @@ router.patch(
 
       await createIdValidation(req.params.id);
 
-      await userServiceModel.updateIsBusiness(req.params.id, req.body);
-      res.json({ msg: "updated" });
+      const updateUser = await userServiceModel.updateIsBusiness(
+        req.params.id,
+        req.body
+      );
+      res.json(updateUser);
     } catch (err) {
       res.status(400).json(err);
     }
@@ -137,8 +146,12 @@ router.delete(
   async (req, res) => {
     try {
       await createIdValidation(req.params.id);
-      await userServiceModel.deletUser(req.params.id);
-      res.json({ msg: "user deleted" });
+      const deltedUser = await userServiceModel.deletUser(req.params.id);
+      if (deltedUser) {
+        res.json(deltedUser);
+      } else {
+        throw new CustomError("user not find");
+      }
     } catch (err) {
       res.status(400).json(err);
     }

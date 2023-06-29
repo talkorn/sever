@@ -8,7 +8,6 @@ const getAllCards = () => {
   return Card.find();
 };
 const getAllMyCards = (user_id) => {
-  console.log("user_id", user_id);
   return Card.find({ user_id });
 };
 

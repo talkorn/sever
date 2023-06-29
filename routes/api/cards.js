@@ -15,10 +15,8 @@ router.post(
       await cardsValidationService.createCardValidation(req.body);
       let normalCard = await normalizedCard(req.body, req.userData._id);
       const dataFromMongoose = await cardServiceModel.createCard(normalCard);
-      console.log("dataFromMongoose", dataFromMongoose);
       res.json({ msg: "new card" });
     } catch (err) {
-      console.log(err);
       res.status(400).json(err);
     }
   }
@@ -34,9 +32,7 @@ router.get("/", async (req, res) => {
 });
 router.get("/my-cards", authMiddleware, async (req, res) => {
   try {
-    console.log(req.userData._id);
-    console.log("jgjydfhd");
-    const allMyCards = await cardServiceModel.getAllMyCards(req.userData.id);
+    const allMyCards = await cardServiceModel.getAllMyCards(req.userData._id);
     res.json(allMyCards);
   } catch (err) {
     res.status(400).json(err);
@@ -47,7 +43,11 @@ router.get("/:id", async (req, res) => {
   try {
     await cardsValidationService.idValidation(req.params.id);
     const cardById = await cardServiceModel.getCardById(req.params.id);
-    res.json(cardById);
+    if (cardById) {
+      res.json(cardById);
+    } else {
+      res.status(400).json({ msg: "could not find the card" });
+    }
   } catch (err) {
     res.status(400).json(err);
   }
@@ -66,7 +66,7 @@ router.put(
         req.params.id,
         normalCard
       );
-      res.json("newCard");
+      res.json(newCard);
     } catch (err) {
       res.status(400).json(err);
     }
@@ -77,6 +77,9 @@ router.patch("/:id", authMiddleware, async (req, res) => {
   try {
     await cardsValidationService.idValidation(req.params.id);
     const card = await cardServiceModel.getCardById(req.params.id);
+    if (!card) {
+      return res.status(400).json({ msg: "card not found" });
+    }
     const userId = req.userData._id;
     const isLikedAlready = card.likes.some((item) => item === userId);
     if (!isLikedAlready) {
@@ -102,9 +105,9 @@ router.delete(
       await cardsValidationService.idValidation(req.params.id);
       const cardDeleted = await cardServiceModel.deleteCard(req.params.id);
       if (cardDeleted) {
-        res.json({ msg: "card deleted" });
+        res.json(cardDeleted);
       } else {
-        res.json({ msg: "could not find the card" });
+        res.status(400).json({ msg: "could not find the card" });
       }
     } catch (err) {
       res.status(400).json(err);
@@ -119,12 +122,15 @@ router.patch(
     try {
       await cardsValidationService.idValidation(req.params.id);
       const newBissNumber = await generateBizNumber();
-      console.log("newBissNumber", newBissNumber);
       const udateCards = await cardServiceModel.newBizNumber(
         req.params.id,
         newBissNumber
       );
-      res.json(udateCards);
+      if (udateCards) {
+        res.json(udateCards);
+      } else {
+        res.status(400).json({ msg: "could not find the card" });
+      }
     } catch (err) {
       res.status(400).json(err);
     }

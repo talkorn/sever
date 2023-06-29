@@ -1,20 +1,10 @@
 const CustomError = require("../utils/CustomError");
 const { getAUserById } = require("../model/userService/userService");
 const userValidationService = require("../validation/authValidationService");
-/*
-    TODO:
-        finish isBizSpecific
-*/
 
 const checkIfRegistredUser = async (idFromToken, idParams, res, next) => {
   try {
-    console.log("idParams", idParams);
-
-    //! joi the idcard
-    /* console.log("mvhcngc");
-    console.log(iduser);*/
     await userValidationService.createIdValidation(idParams);
-    console.log("idFromToken", idFromToken);
     const user = await getAUserById(idFromToken);
 
     if (!user) {
@@ -30,19 +20,12 @@ const checkIfRegistredUser = async (idFromToken, idParams, res, next) => {
   }
 };
 
-/*
-  isBiz = every biz
-  isAdmin = is admin
-  isBizOwner = biz owner
-*/
-
 const permissionsUserMiddleware = (isRegistredUser, isAdmin) => {
   return (req, res, next) => {
     if (!req.userData) {
       throw new CustomError("must provide userData");
     }
     if (isAdmin === req.userData.isAdmin && isAdmin === true) {
-      console.log("dfgbrthgtfh");
       return next();
     }
     if (isRegistredUser === true) {
