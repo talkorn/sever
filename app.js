@@ -1,5 +1,5 @@
 var express = require("express");
-
+const loggers = require("./logger");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
@@ -12,25 +12,6 @@ var app = express();
 const chalk = require("chalk");
 const initialData = require("./iniitialData/initialData");
 app.use(cors());
-
-const logsDir = path.join(__dirname, "logs");
-if (!fs.existsSync(logsDir)) {
-  fs.mkdirSync(logsDir);
-}
-
-const loggers = (requestDate, statusCode, errorMessage) => {
-  const currentDate = new Date();
-  const logFileName = `${currentDate.toISOString().slice(0, 10)}.log`;
-  const logFilePath = path.join(logsDir, logFileName);
-
-  const logData = `${requestDate}, ${statusCode}, ${errorMessage}\n`;
-
-  fs.appendFile(logFilePath, logData, (err) => {
-    if (err) {
-      console.error("Error writing to log file:", err);
-    }
-  });
-};
 
 app.use(
   logger((tokens, req, res) => {
