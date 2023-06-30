@@ -89,8 +89,8 @@ router.patch("/:id", authMiddleware, async (req, res) => {
       card.likes = filteredLikes;
     }
 
-    await cardServiceModel.likesCard(req.params.id, card.likes);
-    res.json("Likes changed");
+    const newCard = await cardServiceModel.likesCard(req.params.id, card.likes);
+    res.json(newCard);
   } catch (err) {
     res.status(400).json(err);
   }
