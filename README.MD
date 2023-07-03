@@ -46,6 +46,7 @@ you can run:
 The following API endpoints are available:
 
 User Routes
+
 POST api/users- Create a new user.
 
 POST api/users/login- User login and authentication.
@@ -61,6 +62,7 @@ PATCH api/users/:id- Update the "isBusiness" field of a user by ID.
 DELETE api/users/:id- Delete a user by ID.
 
 Card Routes
+
 POST /api/cards- Create a new card.
 
 GET /api/cards- Get all cards.
