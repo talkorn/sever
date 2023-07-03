@@ -45,36 +45,135 @@ you can run:
 
 The following API endpoints are available:
 
-User Routes
+### User Routes
 
-POST api/users- Create a new user.
+#### - Create a new user
 
-POST api/users/login- User login and authentication.
+POST api/users
 
-GET api/users-Get all users.
+request:
+name:{first,lastName}
+phone
+email
+password
+address:{country,city,street,houseNumber}
+biz
 
-GET api/users/:id- Get a user by ID.
+allow:
+name{middle},address:{state,zip}image:{url,alt}
 
-PUT api/users/:id- Update a user by ID.
+#### - User login and authentication.
 
-PATCH api/users/:id- Update the "isBusiness" field of a user by ID.
+POST api/users/login
 
-DELETE api/users/:id- Delete a user by ID.
+You will need to provide a token to get an answer from this api
 
-Card Routes
+request:
+email, password
 
-POST /api/cards- Create a new card.
+#### -Get all users
 
-GET /api/cards- Get all cards.
+GET api/users
 
-GET /api/cards/my-cards- Get all cards belonging to the authenticated user.
+You will need to provide a token to get an answer from this api
+\*\* must be registered as admin
 
-GET /api/cards/:id- Get a card by ID.
+#### - Get a user by ID.
 
-PUT /api/cards/:id- Update a card by ID.
+GET api/users/:id
 
-PATCH /api/cards/:id- Toggle the "likes" field of a card by ID.
+You will need to provide a token to get an answer from this api
+\*\* must be registered as admin or registred user
 
-DELETE /api/cards/:id- Delete a card by ID.
+#### - Update a user by ID.
 
-PATCH /api/cards/biz/:id- Generate a new business number for a card by ID.
+PUT api/users/:id
+
+You will need to provide a token to get an answer from this api
+\*\* must be registred user
+
+request:
+name:{first,lastName}
+phone
+email
+address:{country,city,street,houseNumber}
+biz
+
+allow:
+name{middle},address:{state,zip}image:{url,alt}
+
+#### - Update the "isBusiness" field of a user by ID.
+
+PATCH api/users/:id
+
+You will need to provide a token to get an answer from this api
+\*\* must be registred user
+
+request:
+isBusiness
+
+#### - Delete a user by ID.
+
+DELETE api/users/:id
+
+You will need to provide a token to get an answer from this api
+\*\* must be registered as admin or registred user
+
+### Card Routes
+
+#### - Create a new card.
+
+POST /api/cards
+You will need to provide a token to get an answer from this api
+\*\* must be registered as business
+
+request:
+title,subTitle,description, address:{country,city, street,houseNumber}, phone, email
+allow: address:{state, zipCode}, web ,image{url,alt}
+
+#### - Get all cards.
+
+GET /api/cards
+
+#### - Get all cards belonging to the authenticated user.
+
+GET /api/cards/my-cards
+
+You will need to provide a token to get an answer from this api
+\*\* must be registred as created user
+
+#### - Get a card by ID.
+
+GET /api/cards/:id
+
+#### - Update a card by ID.
+
+PUT /api/cards/:id
+
+You will need to provide a token to get an answer from this api
+\*\* must be registred created user
+
+request:
+title,subTitle,description, address:{country,city, street,houseNumber}, phone, email url, alt
+allow: address:{state, zipCode}, web ,image{url,alt}
+
+#### - Update the "likes" field of a card by ID.
+
+PATCH /api/cards/:id
+
+You will need to provide a token to get an answer from this api
+\*\* must be registred user
+
+#### - Delete a card by ID.
+
+DELETE /api/cards/:id
+
+You will need to provide a token to get an answer from this api
+\*\* must be registered as admin or registred created user
+
+#### - Generate a new business number for a card by ID.
+
+PATCH /api/cards/biz/:id
+
+You will need to provide a token to get an answer from this api
+\*\* must be registered as admin
