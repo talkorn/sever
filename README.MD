@@ -53,11 +53,11 @@ POST api/users
 
 request:
 name:{first,lastName}
-phone
-email
-password
-address:{country,city,street,houseNumber}
-biz
+,phone
+,email
+,password
+,address:{country,city,street,houseNumber}
+,biz
 
 allow:
 name{middle},address:{state,zip}image:{url,alt}
@@ -76,6 +76,7 @@ email, password
 GET api/users
 
 You will need to provide a token to get an answer from this api
+
 \*\* must be registered as admin
 
 #### - Get a user by ID.
@@ -83,6 +84,7 @@ You will need to provide a token to get an answer from this api
 GET api/users/:id
 
 You will need to provide a token to get an answer from this api
+
 \*\* must be registered as admin or registred user
 
 #### - Update a user by ID.
@@ -90,14 +92,15 @@ You will need to provide a token to get an answer from this api
 PUT api/users/:id
 
 You will need to provide a token to get an answer from this api
+
 \*\* must be registred user
 
 request:
 name:{first,lastName}
-phone
-email
-address:{country,city,street,houseNumber}
-biz
+,phone
+,email
+,address:{country,city,street,houseNumber}
+,biz
 
 allow:
 name{middle},address:{state,zip}image:{url,alt}
@@ -107,6 +110,7 @@ name{middle},address:{state,zip}image:{url,alt}
 PATCH api/users/:id
 
 You will need to provide a token to get an answer from this api
+
 \*\* must be registred user
 
 request:
@@ -117,6 +121,7 @@ isBusiness
 DELETE api/users/:id
 
 You will need to provide a token to get an answer from this api
+
 \*\* must be registered as admin or registred user
 
 ### Card Routes
@@ -124,11 +129,14 @@ You will need to provide a token to get an answer from this api
 #### - Create a new card.
 
 POST /api/cards
+
 You will need to provide a token to get an answer from this api
+
 \*\* must be registered as business
 
 request:
 title,subTitle,description, address:{country,city, street,houseNumber}, phone, email
+
 allow: address:{state, zipCode}, web ,image{url,alt}
 
 #### - Get all cards.
@@ -140,6 +148,7 @@ GET /api/cards
 GET /api/cards/my-cards
 
 You will need to provide a token to get an answer from this api
+
 \*\* must be registred as created user
 
 #### - Get a card by ID.
@@ -151,10 +160,12 @@ GET /api/cards/:id
 PUT /api/cards/:id
 
 You will need to provide a token to get an answer from this api
+
 \*\* must be registred created user
 
 request:
 title,subTitle,description, address:{country,city, street,houseNumber}, phone, email url, alt
+
 allow: address:{state, zipCode}, web ,image{url,alt}
 
 #### - Update the "likes" field of a card by ID.
@@ -162,6 +173,7 @@ allow: address:{state, zipCode}, web ,image{url,alt}
 PATCH /api/cards/:id
 
 You will need to provide a token to get an answer from this api
+
 \*\* must be registred user
 
 #### - Delete a card by ID.
@@ -169,6 +181,7 @@ You will need to provide a token to get an answer from this api
 DELETE /api/cards/:id
 
 You will need to provide a token to get an answer from this api
+
 \*\* must be registered as admin or registred created user
 
 #### - Generate a new business number for a card by ID.
@@ -176,4 +189,5 @@ You will need to provide a token to get an answer from this api
 PATCH /api/cards/biz/:id
 
 You will need to provide a token to get an answer from this api
+
 \*\* must be registered as admin
