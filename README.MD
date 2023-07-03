@@ -52,12 +52,7 @@ The following API endpoints are available:
 POST api/users
 
 request:
-name:{first,lastName}
-,phone
-,email
-,password
-,address:{country,city,street,houseNumber}
-,biz
+name:{first,lastName},phone,email,password,address:{country,city,street,houseNumber},biz
 
 allow:
 name{middle},address:{state,zip}image:{url,alt}
@@ -96,11 +91,7 @@ You will need to provide a token to get an answer from this api
 \*\* must be registred user
 
 request:
-name:{first,lastName}
-,phone
-,email
-,address:{country,city,street,houseNumber}
-,biz
+name:{first,lastName},phone,email,address:{country,city,street,houseNumber},biz
 
 allow:
 name{middle},address:{state,zip}image:{url,alt}
