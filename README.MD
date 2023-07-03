@@ -46,13 +46,13 @@ you can run:
 The following API endpoints are available:
 
 User Routes
-POST api/users: Create a new user.
-POST api/users/login: User login and authentication.
-GET api/users: Get all users.
-GET api/users/:id: Get a user by ID.
-PUT api/users/:id: Update a user by ID.
-PATCH api/users/:id: Update the "isBusiness" field of a user by ID.
-DELETE api/users/:id: Delete a user by ID.
+POST api/users- Create a new user.
+POST api/users/login- User login and authentication.
+GET api/users-Get all users.
+GET api/users/:id- Get a user by ID.
+PUT api/users/:id- Update a user by ID.
+PATCH api/users/:id- Update the "isBusiness" field of a user by ID.
+DELETE api/users/:id- Delete a user by ID.
 
 Card Routes
 POST /api/cards- Create a new card.
